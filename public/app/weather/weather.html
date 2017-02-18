@@ -1,0 +1,41 @@
+<div class="container">
+<div class="row" ng-repeat="weatherLocale in vm.weatherItems">
+  <h3>
+  	Previsão para {{weatherLocale.locale.name}}/{{weatherLocale.locale.state}}
+  </h3>
+
+  <div class="col-md-3" ng-repeat="weather in weatherLocale.weather">
+    <div class="panel panel-default">
+	  <div class="panel-body panel-weather-header">
+	    <strong>{{weather.date | date:"dd/MM/yyyy"}}</strong>
+	    <div class="description">
+	    	{{weather.text}}
+	    </div>
+	  </div>
+	  <div class="panel-footer">
+	  	<div class="row">
+		  <div class="col-xs-6 card-item">
+		  	<img src="/assets/icons/upload.png">
+		  	<span class="temperature-max"> {{weather.temperature.max}} &ordm;C </span>
+		  </div>
+		  <div class="col-xs-6 card-item">
+		  	<img src="/assets/icons/download.png">
+		  	<span class="temperature-min"> {{weather.temperature.min}} &ordm;C </span>
+		  </div>
+		</div>
+	  	<div class="row">
+		  <div class="col-xs-6 card-item">
+		  	<img src="/assets/icons/raindrop-close-up.png">
+		  	<span class="temperature-min"> {{weather.rain.precipitation}} mm </span>
+		  </div>
+		  <div class="col-xs-6 card-item">
+		  	<img src="/assets/icons/protection-symbol-of-opened-umbrella-silhouette-under-raindrops.png">
+		  	<span class="temperature-min"> {{weather.rain.probability}} % </span>
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </div>
+
+</div>
+</div>

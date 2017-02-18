@@ -1,0 +1,20 @@
+ <div class="form-group form-search-locales">
+   <!-- <input type="text" class="form-control col-md-8" placeholder="Digite a cidade ..."> -->
+
+  <div class="input-group">
+    <ui-select ng-model="search.locale"
+      on-select="search.showWeatherLocale()"
+      theme="bootstrap">
+      <ui-select-match placeholder="Digite a cidade ...">{{$select.selected.name}}</ui-select-match>
+      <ui-select-choices
+      minimum-input-length="1"
+      refresh="search.suggestion($select.search)"
+      refresh-delay="0"
+      repeat="localeFound in search.localesFound | filter:$select.search track by localeFound.id">
+        <div ng-bind-html="localeFound.name | highlight: $select.search"></div>
+      </ui-select-choices>
+    </ui-select>
+
+    <i class="glyphicon glyphicon-search form-control-feedback"></i>
+  </div>
+ </div>
