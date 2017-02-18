@@ -1,12 +1,12 @@
 ;(function () {
   'use strict'
 
-  angular.module('app').service('localesService', localesService)
+  angular.module('climate').service('LocalesService', LocalesService)
 
-  localesService.$inject = ['$resource', 'Environment']
+  LocalesService.$inject = ['$resource', 'environment']
 
-  function localesService ($resource, Environment) {
-    var rootUrl = Environment.climateApiUrl + '/locales'
+  function LocalesService ($resource, environment) {
+    var rootUrl = environment.climateApiUrl + '/locales'
 
     var resource = $resource(rootUrl, null, {
       'search': {

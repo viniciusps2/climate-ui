@@ -1,9 +1,9 @@
 ;(function () {
   'use strict'
 
-  angular.module('app')
+  angular.module('climate')
 
-    .constant('Environment', {
+    .constant('environment', {
       climateApiUrl: checkInjectedVariable('/* @echo CLIMATE_API_URL */', 'http://localhost:3006')
     })
 

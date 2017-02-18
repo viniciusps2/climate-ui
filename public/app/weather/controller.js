@@ -1,18 +1,18 @@
 ;(function () {
   'use strict'
 
-  angular.module('app').controller('WeatherCtrl', WeatherCtrl)
+  angular.module('climate').controller('WeatherCtrl', WeatherCtrl)
 
-  WeatherCtrl.$inject = ['weatherService', '$routeParams']
+  WeatherCtrl.$inject = ['WeatherService', '$routeParams']
 
-  function WeatherCtrl (weatherService, $routeParams) {
+  function WeatherCtrl (WeatherService, $routeParams) {
     var vm = this
     var localeId = $routeParams.localeId
 
     vm.findByLocaleId = findByLocaleId
 
     function findByLocaleId (localeId) {
-      weatherService.findByLocaleId(localeId).then(function (weatherItems) {
+      WeatherService.findByLocaleId(localeId).then(function (weatherItems) {
         vm.weatherItems = weatherItems
       })
     }

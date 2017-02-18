@@ -155,13 +155,14 @@ gulp.task('test', ['inject-karma'], function (done) {
   // Tests
   const argv = require('yargs').argv
   const Server = require('karma').Server
-  let singleRun, browsers
+  let singleRun = true
+  let browsers = ['PhantomJS']
+
   if (argv.d) { // argument to debug
     singleRun = false
     browsers = ['Chrome']
-  } else {
-    singleRun = true
-    browsers = ['PhantomJS']
+  } else if (argv.w) { // watch
+    singleRun = false
   }
 
   new Server({
@@ -169,7 +170,7 @@ gulp.task('test', ['inject-karma'], function (done) {
     configFile: KARMA_CONF_FILE,
     singleRun: singleRun
   }, function (karmaExitStatus) {
-    process.exit(1)
+    if (karmaExitStatus) process.exit(1)
     done()
   }).start()
 })

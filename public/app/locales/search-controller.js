@@ -1,11 +1,11 @@
 ;(function () {
   'use strict'
 
-  angular.module('app').controller('SearchLocalesCtrl', SearchLocalesCtrl)
+  angular.module('climate').controller('SearchLocalesCtrl', SearchLocalesCtrl)
 
-  SearchLocalesCtrl.$inject = ['localesService', '$location']
+  SearchLocalesCtrl.$inject = ['LocalesService', '$location']
 
-  function SearchLocalesCtrl (localesService, $location) {
+  function SearchLocalesCtrl (LocalesService, $location) {
     var search = this
 
     search.name = ''
@@ -18,7 +18,7 @@
     }
 
     function suggestion (name) {
-      localesService.search(name).then(function (localesFound) {
+      LocalesService.search(name).then(function (localesFound) {
         search.localesFound = localesFound
       })
     }

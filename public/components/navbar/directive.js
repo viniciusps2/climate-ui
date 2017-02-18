@@ -1,12 +1,12 @@
-(function() {
+;(function () {
   'use strict'
 
-  angular.module('app')
+  angular.module('climate')
     .directive('navbar', navbar)
 
-    function navbar() {
-      return {
-        templateUrl: 'components/navbar/navbar.html'
-      }
+  function navbar () {
+    return {
+      templateUrl: 'components/navbar/navbar.html'
     }
+  }
 })()

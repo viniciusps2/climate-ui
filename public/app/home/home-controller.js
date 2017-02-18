@@ -1,7 +1,7 @@
 ;(function () {
   'use strict'
 
-  angular.module('app').controller('HomeCtrl', HomeCtrl)
+  angular.module('climate').controller('HomeCtrl', HomeCtrl)
 
   HomeCtrl.$inject = []
 

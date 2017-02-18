@@ -1,12 +1,12 @@
 ;(function () {
   'use strict'
 
-  angular.module('app').service('weatherService', weatherService)
+  angular.module('climate').service('WeatherService', WeatherService)
 
-  weatherService.$inject = ['$resource', 'Environment']
+  WeatherService.$inject = ['$resource', 'environment']
 
-  function weatherService ($resource, Environment) {
-    var rootUrl = Environment.climateApiUrl + '/weather'
+  function WeatherService ($resource, environment) {
+    var rootUrl = environment.climateApiUrl + '/weather'
 
     var resource = $resource(rootUrl, null, {
       'findAll': {
