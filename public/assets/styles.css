@@ -38,20 +38,36 @@ body {
 }
 
 .navbar-form .form-control-feedback {
-	right: 40px;
+	right: 25px;
     top: 8px;
 }
 
-.card-item {
-	padding: 15px 30px;
+.navbar-search-locales {
+	padding: 0;
 }
 
 .ui-select-bootstrap > .ui-select-match > .btn, .ui-select-bootstrap .form-control {
-    width: 100%;
+    width: 100% !important;
 }
 
 .row-weather h3 {
 	margin: 20px 0px;
+}
+
+.card-item {
+	padding: 8px 10px;
+	font-size: 11pt;
+	font-weight: bold;
+}
+.card-item img{
+	padding: 0px 2px;
+}
+
+.temperature-max {
+	color: #0277bd;
+}
+.temperature-min {
+	color: #c62828;
 }
 
 @media (max-width: 800px) {

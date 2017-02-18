@@ -9,7 +9,7 @@
     var rootUrl = environment.climateApiUrl + '/weather'
 
     var resource = $resource(rootUrl, null, {
-      'findAll': {
+      'getMainWeathers': {
         url: rootUrl + '/',
         method: 'GET',
         isArray: true
@@ -22,8 +22,8 @@
       }
     })
 
-    function findAll () {
-      return resource.findAll().$promise
+    function getMainWeathers () {
+      return resource.getMainWeathers().$promise
     }
 
     function findByLocaleId (localeId) {
@@ -31,7 +31,7 @@
     }
 
     return {
-      findAll: findAll,
+      getMainWeathers: getMainWeathers,
       findByLocaleId: findByLocaleId
     }
   }

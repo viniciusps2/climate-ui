@@ -5,7 +5,8 @@
 
   HomeCtrl.$inject = []
 
-  function HomeCtrl (weatherService) {
+  function HomeCtrl () {
     var vm = this
+
   }
 })()

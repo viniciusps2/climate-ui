@@ -19,15 +19,19 @@
     })
 
     route('/', {
-      redirectTo: '/weather'
+      templateUrl: 'app/home/home.html',
+      controller: 'HomeCtrl',
+      controllerAs: 'vm'
     })
-    route('/not_found', {
-      templateUrl: '404.html'
-    })
+
     route('/weather', {
       templateUrl: 'app/weather/weather.html',
       controller: 'WeatherCtrl',
       controllerAs: 'vm'
+    })
+
+    route('/not_found', {
+      templateUrl: '404.html'
     })
   }
 })()

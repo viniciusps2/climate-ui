@@ -21,7 +21,7 @@ describe('LocalesService Spec', function () {
     it('should call API and return array', function () {
       httpBackend
         .whenPOST(environment.climateApiUrl + '/locales/search', {name: 'Osas'})
-        .respond(200, [{locale: {id: 1}}])
+        .respond(200, [{id: 2, name: 'Osasco'}])
 
       localesService.search('Osas')
 

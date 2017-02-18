@@ -10,6 +10,8 @@
     var localeId = $routeParams.localeId
 
     vm.findByLocaleId = findByLocaleId
+    vm.getMainWeathers = getMainWeathers
+    vm.initialize = initialize
 
     function findByLocaleId (localeId) {
       WeatherService.findByLocaleId(localeId).then(function (weatherItems) {
@@ -17,8 +19,14 @@
       })
     }
 
+    function getMainWeathers () {
+      WeatherService.getMainWeathers().then(function (weatherItems) {
+        vm.weatherItems = weatherItems
+      })
+    }
+
     function initialize () {
-      findByLocaleId(localeId)
+      localeId ? findByLocaleId(localeId) : getMainWeathers()
     }
 
     initialize()

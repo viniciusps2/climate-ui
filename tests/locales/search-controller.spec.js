@@ -20,9 +20,9 @@ describe('SearchLocalesCtrl Spec', function () {
 
   describe('suggestion', function () {
     it('should call LocalesService.search and update localesFound', function () {
-      controller.suggestion()
+      controller.suggestion('São Paulo')
       scope.$digest()
-      expect(controller.localesFound).toEqual([{locale: {id: 1}}])
+      expect(controller.localesFound).toEqual([{id: 1, name: 'São Paulo'}])
     })
   })
 
@@ -41,7 +41,7 @@ describe('SearchLocalesCtrl Spec', function () {
     return {
       search: function () {
         var defer = q.defer()
-        defer.resolve([{locale: {id: 1}}])
+        defer.resolve([{id: 1, name: 'São Paulo'}])
         return defer.promise
       }
     }

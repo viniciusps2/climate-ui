@@ -15,6 +15,7 @@ module.exports = function (config) {
             "../public/app/locales/search-controller.js",
             "../public/app/locales/service.js",
             "../public/app/weather/controller.js",
+            "../public/app/weather/directive.js",
             "../public/app/weather/service.js",
             "../public/components/navbar/directive.js",
             "./**/*spec.js"],
