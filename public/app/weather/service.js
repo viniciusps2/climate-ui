@@ -16,7 +16,7 @@
       },
 
       'findByLocaleId': {
-        url: rootUrl + '/:id',
+        url: rootUrl + '/locales/:localeId',
         method: 'GET',
         isArray: true
       }
@@ -26,8 +26,8 @@
       return resource.findAll().$promise
     }
 
-    function findByLocaleId (id) {
-      return resource.findByLocaleId({id: id}).$promise
+    function findByLocaleId (localeId) {
+      return resource.findByLocaleId({localeId: localeId}).$promise
     }
 
     return {

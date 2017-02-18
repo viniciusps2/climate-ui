@@ -3,21 +3,22 @@
 
   angular.module('app').controller('WeatherCtrl', WeatherCtrl)
 
-  WeatherCtrl.$inject = ['weatherService']
+  WeatherCtrl.$inject = ['weatherService', '$routeParams']
 
-  function WeatherCtrl (weatherService) {
+  function WeatherCtrl (weatherService, $routeParams) {
     var vm = this
+    var localeId = $routeParams.localeId
 
-    vm.searchWeather = searchWeather
+    vm.findByLocaleId = findByLocaleId
 
-    function searchWeather () {
-      weatherService.findAll().then(function (weatherItems) {
+    function findByLocaleId (localeId) {
+      weatherService.findByLocaleId(localeId).then(function (weatherItems) {
         vm.weatherItems = weatherItems
       })
     }
 
     function initialize () {
-      searchWeather()
+      findByLocaleId(localeId)
     }
 
     initialize()

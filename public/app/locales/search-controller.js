@@ -3,9 +3,9 @@
 
   angular.module('app').controller('SearchLocalesCtrl', SearchLocalesCtrl)
 
-  SearchLocalesCtrl.$inject = ['localesService']
+  SearchLocalesCtrl.$inject = ['localesService', '$location']
 
-  function SearchLocalesCtrl (localesService) {
+  function SearchLocalesCtrl (localesService, $location) {
     var search = this
 
     search.name = ''
@@ -14,7 +14,7 @@
     search.suggestion = suggestion
 
     function showWeatherLocale () {
-      console.log('===============logging: ====', search.locale);
+      $location.path('/weather').search({localeId: search.locale.id})
     }
 
     function suggestion (name) {

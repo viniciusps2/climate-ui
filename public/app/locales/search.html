@@ -1,7 +1,5 @@
- <div class="form-group form-search-locales">
-   <!-- <input type="text" class="form-control col-md-8" placeholder="Digite a cidade ..."> -->
-
-  <div class="input-group">
+ <div class="navbar-form form-group form-search-locales">
+  <form ng-submit="search.checkClear()">
     <ui-select ng-model="search.locale"
       on-select="search.showWeatherLocale()"
       theme="bootstrap">
@@ -9,12 +7,12 @@
       <ui-select-choices
       minimum-input-length="1"
       refresh="search.suggestion($select.search)"
-      refresh-delay="0"
+      refresh-delay="100"
       repeat="localeFound in search.localesFound | filter:$select.search track by localeFound.id">
         <div ng-bind-html="localeFound.name | highlight: $select.search"></div>
       </ui-select-choices>
     </ui-select>
 
     <i class="glyphicon glyphicon-search form-control-feedback"></i>
-  </div>
+  </form>
  </div>

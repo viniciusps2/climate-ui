@@ -1,1 +1,6 @@
-angular.module('app', ['ngResource', 'ngRoute', 'ngSanitize', 'ui.bootstrap', 'ui.select'])
+angular
+  .module('app', ['ngResource', 'ngRoute', 'ngSanitize', 'ui.bootstrap', 'ui.select'])
+
+  .config(['$locationProvider', function ($locationProvider) {
+    $locationProvider.hashPrefix('')
+  }])

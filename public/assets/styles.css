@@ -1,5 +1,9 @@
+body {
+	background: #e0e0e0;
+}
+
 * {
-  border-radius: 0 !important;
+	border-radius: 0 !important;
 }
 
 .navbar-header {
@@ -34,20 +38,25 @@
 }
 
 .navbar-form .form-control-feedback {
-	right: 12px;
+	right: 40px;
+    top: 8px;
 }
 
 .card-item {
-	padding: 20px;
+	padding: 15px 30px;
 }
 
-.ui-select-bootstrap > .ui-select-match > .btn {
+.ui-select-bootstrap > .ui-select-match > .btn, .ui-select-bootstrap .form-control {
     width: 100%;
+}
+
+.row-weather h3 {
+	margin: 20px 0px;
 }
 
 @media (max-width: 800px) {
 	.main-container {
-    	padding-top: 100px;
+    	padding-top: 110px;
 	}
 
 	.navbar-form {
@@ -67,7 +76,7 @@
 	}
 
 	.panel-weather-header {
-		height: 8em;
+		height: 10em;
 	}
 }
 
