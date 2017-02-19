@@ -5,3 +5,4 @@ dist/
 public/bower_components/
 public/_dist/
 /bin/
+coverage

@@ -52,7 +52,7 @@ let IS_DIST = false
 
 const KARMA_CONF_FILE = rootPath + 'tests/karma.conf.js'
 const SPEC_DIRECTORY = rootPath + 'tests/'
-const SPEC_FILES = '"./**/*spec.js"'
+const SPEC_FILES = '\'./**/*spec.js\''
 
 gulp.task('serve', ['jshint', 'inject'], () => {
   const browserSync = require('browser-sync').create()
@@ -129,12 +129,12 @@ gulp.task('inject', () => {
 gulp.task('inject-karma', () => {
   // Inject all SOURCE_JS files
   function injectAppJsFiles (filepath, i, length) {
-    return '"..' + filepath + '"' + (i + 1 < length ? ',\n            ' : '')
+    return '\'..' + filepath + '\'' + (i + 1 < length ? ',\n            ' : '')
   }
 
   // Inject SPEC files
   function injectSpecFiles (i, length, extracted) {
-    if (i + 1 == length) {
+    if (i + 1 === length) {
       extracted = extracted + ',\n            ' + SPEC_FILES
     }
     return extracted

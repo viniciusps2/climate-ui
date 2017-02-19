@@ -2,12 +2,9 @@
   'use strict'
 
   angular.module('climate')
-    .config(Config)
+    .config(routes)
 
-  /* @ngInject */
-  function Config ($locationProvider, $routeProvider) {
-    routes($locationProvider, $routeProvider)
-  }
+  routes.$inject = ['$locationProvider', '$routeProvider']
 
   function routes ($locationProvider, $routeProvider) {
     function route (url, opts) {

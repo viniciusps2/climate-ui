@@ -8,7 +8,7 @@
       minimum-input-length="1"
       refresh="search.suggestion($select.search)"
       refresh-delay="100"
-      repeat="localeFound in search.localesFound | filter:$select.search track by localeFound.id">
+      repeat="localeFound in search.localesFound track by localeFound.id">
         <div ng-bind-html="localeFound.name | highlight: $select.search"></div>
       </ui-select-choices>
     </ui-select>

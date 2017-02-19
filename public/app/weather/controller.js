@@ -26,7 +26,11 @@
     }
 
     function initialize () {
-      localeId ? findByLocaleId(localeId) : getMainWeathers()
+      if (localeId) {
+        findByLocaleId(localeId)
+      } else {
+        getMainWeathers()
+      }
     }
 
     initialize()
