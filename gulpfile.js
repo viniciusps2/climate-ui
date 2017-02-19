@@ -97,7 +97,7 @@ gulp.task('jshint', () => {
 })
 
 // Inject
-gulp.task('inject', () => {
+gulp.task('inject', ['minify'], () => {
   let options = {
     read: false,
     ignorePath: ['public'],
