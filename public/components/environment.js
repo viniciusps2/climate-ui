@@ -8,6 +8,6 @@
     })
 
   function checkInjectedVariable (value, defaultValue) {
-    return value === 'undefined' || value.indexOf('echo') >= 0 ? defaultValue : value
+    return value === 'undefined' || value.indexOf('echo') >= 0 ? defaultValue : value.replace(/\/$/, '')
   }
 })()
