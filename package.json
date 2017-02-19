@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "scripts": {
     "postinstall": "bower install",
-    "start": "node node_modules/gulp/bin/gulp serve-prod",
+    "start": "node node_modules/gulp/bin/gulp serve",
+    "prod": "node node_modules/gulp/bin/gulp serve-prod",
     "test": "node node_modules/gulp/bin/gulp test",
+    "test-watch": "node node_modules/gulp/bin/gulp test -w",
     "dev": "PORT=3000 node node_modules/gulp/bin/gulp serve"
   },
   "dependencies": {
