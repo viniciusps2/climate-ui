@@ -6,3 +6,4 @@ public/bower_components/
 public/_dist/
 /bin/
 coverage
+npm-debug.log*

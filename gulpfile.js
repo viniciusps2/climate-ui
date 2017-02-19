@@ -1,4 +1,5 @@
 'use strict'
+const path = require('path')
 const gulp = require('gulp')
 const connect = require('gulp-connect')
 const jshint = require('gulp-jshint')
@@ -13,45 +14,46 @@ const minifycss = require('gulp-minify-css')
 const sourcemaps = require('gulp-sourcemaps')
 // const clean = require('gulp-clean')
 
-const rootPath = __dirname + '/'
-// const GULP_FILE = 'gulpfile.js'
+const getFullPath = (file) => path.join(__dirname, file)
+
+const GULP_FILE = 'gulpfile.js'
 
 const SOURCES_JS = [
-  rootPath + 'public/**/*.js',
-  '!' + rootPath + 'public/bower_components/**/*.js',
-  '!' + rootPath + 'public/_dist/*.js'
+  getFullPath('public/**/*.js'),
+  '!' + getFullPath('public/bower_components/**/*.js'),
+  '!' + getFullPath('public/_dist/*.js')
 ]
 
 const SOURCES_JS_DIST = [
-  rootPath + 'public/_dist/**/*.min.js',
-  '!' + rootPath + 'public/bower_components/**/*.js'
+  getFullPath('public/_dist/**/*.min.js'),
+  '!' + getFullPath('public/bower_components/**/*.js')
 ]
 
 const SOURCES_HTML = [
-  rootPath + 'public/**/*.html'
+  getFullPath('public/**/*.html')
 ]
 
 const SOURCES_CSS = [
-  rootPath + 'public/**/*.css',
-  '!' + rootPath + 'public/bower_components/**/*.css',
-  '!' + rootPath + 'public/_dist/*.css'
+  getFullPath('public/**/*.css'),
+  '!' + getFullPath('public/bower_components/**/*.css'),
+  '!' + getFullPath('public/_dist/*.css')
 ]
 
 const SOURCES_CSS_DIST = [
-  rootPath + 'public/_dist/**/*.min.css',
-  '!' + rootPath + 'public/bower_components/**/*.css'
+  getFullPath('public/_dist/**/*.min.css'),
+  '!' + getFullPath('public/bower_components/**/*.css')
 ]
 
 const SOURCES_SPEC = [
-  rootPath + 'tests/**/*.js'
+  getFullPath('tests/**/*.js')
 ]
 
-const DIST_JS = rootPath + 'public/_dist'
-const DIST_CSS = rootPath + 'public/_dist'
+const DIST_JS = getFullPath('public/_dist')
+const DIST_CSS = getFullPath('public/_dist')
 let IS_DIST = false
 
-const KARMA_CONF_FILE = rootPath + 'tests/karma.conf.js'
-const SPEC_DIRECTORY = rootPath + 'tests/'
+const KARMA_CONF_FILE = getFullPath('tests/karma.conf.js')
+const SPEC_DIRECTORY = getFullPath('tests/')
 const SPEC_FILES = '\'./**/*spec.js\''
 
 gulp.task('serve', ['jshint', 'inject'], () => {
@@ -103,31 +105,28 @@ gulp.task('inject', () => {
   }
 
   let wiredepOptions = {
-    directory: rootPath + 'public/bower_components',
-    exclude: rootPath + 'public/bower_components/angular-mocks/angular-mocks.js'
+    directory: getFullPath('public/bower_components'),
+    exclude: getFullPath('public/bower_components/angular-mocks/angular-mocks.js')
   }
 
-  let source_js = []
-  let source_css = []
+  let sourceJs = SOURCES_JS
+  let sourceCss = SOURCES_CSS
 
   if (IS_DIST) {
-    source_js = SOURCES_JS_DIST
-    source_css = SOURCES_CSS_DIST
-  } else {
-    source_js = SOURCES_JS
-    source_css = SOURCES_CSS
+    sourceJs = SOURCES_JS_DIST
+    sourceCss = SOURCES_CSS_DIST
   }
 
-  return gulp.src(rootPath + 'public/index.html')
-    .pipe(inject(gulp.src(source_js), options))
-    .pipe(inject(gulp.src(source_css), options))
+  return gulp.src(getFullPath('public/index.html'))
+    .pipe(inject(gulp.src(sourceJs), options))
+    .pipe(inject(gulp.src(sourceCss), options))
     .pipe(wiredep(wiredepOptions))
-    .pipe(gulp.dest(rootPath + 'public'))
+    .pipe(gulp.dest(getFullPath('public')))
 })
 
 // Karma
 gulp.task('inject-karma', () => {
-  // Inject all SOURCE_JS files
+  // Inject all SOURCEJS files
   function injectAppJsFiles (filepath, i, length) {
     return '\'..' + filepath + '\'' + (i + 1 < length ? ',\n            ' : '')
   }
@@ -208,3 +207,4 @@ gulp.task('build', ['isDist', 'jshint', 'minify', 'inject'], () => {
 gulp.task('isDist', () => {
   IS_DIST = true
 })
+
