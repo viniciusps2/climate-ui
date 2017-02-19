@@ -18,45 +18,58 @@ const sourcemaps = require('gulp-sourcemaps')
 
 const getFullPath = (file) => path.join(__dirname, file)
 
-const GULP_FILE = 'gulpfile.js'
+// const GULP_FILE = 'gulpfile.js'
 
-const SOURCES_JS = [
+const jsSource = [
   getFullPath('public/**/*.js'),
   '!' + getFullPath('public/bower_components/**/*.js'),
   '!' + getFullPath('public/_dist/*.js')
 ]
 
-const SOURCES_JS_DIST = [
-  getFullPath('public/_dist/**/*.min.js'),
+const jsSourceVendor = [
+  getFullPath('public/bower_components/angular/**/*.min.js'),
+  getFullPath('public/bower_components/angular-bootstrap/ui-bootstrap.min.js'),
+  getFullPath('public/bower_components/**/*.min.js')
+]
+
+const jsSourceDist = [
+  getFullPath('public/_dist/*.min.js'),
   '!' + getFullPath('public/bower_components/**/*.js')
 ]
 
-const SOURCES_HTML = [
+const htmlSource = [
   getFullPath('public/**/*.html')
 ]
 
-const SOURCES_CSS = [
+const cssSource = [
   getFullPath('public/**/*.css'),
   '!' + getFullPath('public/bower_components/**/*.css'),
   '!' + getFullPath('public/_dist/*.css')
 ]
 
-const SOURCES_CSS_DIST = [
+const cssSourceVendor = [
+  getFullPath('public/bower_components/**/*.min.css')
+]
+
+const cssSourceDist = [
   getFullPath('public/_dist/**/*.min.css'),
   '!' + getFullPath('public/bower_components/**/*.css')
 ]
 
-const SOURCES_SPEC = [
+const fontsSource = [
+  getFullPath('public/bower_components/**/*.{eot,svg,ttf,woff,woff2}')
+]
+
+const specSource = [
   getFullPath('tests/**/*.js')
 ]
 
-const DIST_JS = getFullPath('public/_dist')
-const DIST_CSS = getFullPath('public/_dist')
-let IS_DIST = false
+const distFolder = getFullPath('public/_dist')
+let isDist = false
 
 const KARMA_CONF_FILE = getFullPath('tests/karma.conf.js')
-const SPEC_DIRECTORY = getFullPath('tests/')
-const SPEC_FILES = "'./**/*spec.js'"
+const specFolder = getFullPath('tests/')
+const specFiles = "'./**/*spec.js'"
 
 gulp.task('serve', ['jshint', 'inject'], () => {
   const browserSync = require('browser-sync').create()
@@ -68,15 +81,15 @@ gulp.task('serve', ['jshint', 'inject'], () => {
       baseDir: './public'
     }
   })
-  gulp.watch(SOURCES_CSS).on('change', () => {
+  gulp.watch(cssSource).on('change', () => {
     gulp.start('inject')
     browserSync.reload()
   })
-  gulp.watch(SOURCES_JS).on('change', () => {
+  gulp.watch(jsSource).on('change', () => {
     gulp.start('jshint', 'inject')
     browserSync.reload()
   })
-  gulp.watch(SOURCES_HTML).on('change', browserSync.reload)
+  gulp.watch(htmlSource).on('change', browserSync.reload)
 })
 
 gulp.task('serve-prod', ['build'], () => {
@@ -96,7 +109,7 @@ gulp.task('serveMin', ['isDist', 'serve'])
 
 // jshint
 gulp.task('jshint', () => {
-  const JSHINT_JS = SOURCES_JS.concat(SOURCES_SPEC)
+  const JSHINT_JS = jsSource.concat(specSource)
 
   return gulp.src(JSHINT_JS)
     .pipe(jshint())
@@ -116,18 +129,25 @@ gulp.task('inject', ['minify'], () => {
     exclude: getFullPath('public/bower_components/angular-mocks/angular-mocks.js')
   }
 
-  let sourceJs = SOURCES_JS
-  let sourceCss = SOURCES_CSS
+  return gulp.src(getFullPath('public/index.html'))
+    .pipe(inject(gulp.src(jsSource), options))
+    .pipe(inject(gulp.src(cssSource), options))
+    .pipe(wiredep(wiredepOptions))
+    .pipe(gulp.dest(getFullPath('public')))
+})
 
-  if (IS_DIST) {
-    sourceJs = SOURCES_JS_DIST
-    sourceCss = SOURCES_CSS_DIST
+// Inject-dist
+gulp.task('inject-dist', ['minify'], () => {
+  let options = {
+    read: false,
+    ignorePath: ['public'],
+    addRootSlash: false
   }
 
   return gulp.src(getFullPath('public/index.html'))
-    .pipe(inject(gulp.src(sourceJs), options))
-    .pipe(inject(gulp.src(sourceCss), options))
-    .pipe(wiredep(wiredepOptions))
+    .pipe(wiredep({exclude: ['.*']}))
+    .pipe(inject(gulp.src(jsSourceDist), options))
+    .pipe(inject(gulp.src(cssSourceDist), options))
     .pipe(gulp.dest(getFullPath('public')))
 })
 
@@ -141,20 +161,20 @@ gulp.task('inject-karma', () => {
   // Inject SPEC files
   function injectSpecFiles (i, length, extracted) {
     if (i + 1 === length) {
-      extracted = extracted + ',\n            ' + SPEC_FILES
+      extracted = extracted + ',\n            ' + specFiles
     }
     return extracted
   }
 
   gulp.src(KARMA_CONF_FILE)
-    .pipe(inject(gulp.src(SOURCES_JS, {read: false}), {
+    .pipe(inject(gulp.src(jsSource, {read: false}), {
       starttag: 'files: [',
       endtag: ']',
       transform: function (filepath, file, i, length) {
         const extracted = injectAppJsFiles(filepath, i, length)
         return injectSpecFiles(i, length, extracted)
       }
-    })).pipe(gulp.dest(SPEC_DIRECTORY))
+    })).pipe(gulp.dest(specFolder))
 })
 
 gulp.task('test', ['inject-karma'], function (done) {
@@ -182,35 +202,54 @@ gulp.task('test', ['inject-karma'], function (done) {
 })
 
 // Minify
-gulp.task('minify', ['minify-js', 'minify-css'])
+gulp.task('minify', ['minify-js', 'minify-css', 'minify-vendor-js', 'minify-vendor-css'])
 
 gulp.task('minify-js', () => {
-  return gulp.src(SOURCES_JS)
+  return gulp.src(jsSource)
     .pipe(concat('all.js'))
     .pipe(preprocess())
-    .pipe(gulp.dest(DIST_JS))
+    .pipe(gulp.dest(distFolder))
     .pipe(rename('all.min.js'))
     .pipe(uglify())
-    .pipe(gulp.dest(DIST_JS))
+    .pipe(gulp.dest(distFolder))
+})
+
+gulp.task('minify-vendor-js', () => {
+  return gulp.src(jsSourceVendor)
+    .pipe(concat('_vendor.min.js'))
+    .pipe(preprocess())
+    .pipe(gulp.dest(distFolder))
 })
 
 gulp.task('minify-css', () => {
-  return gulp.src(SOURCES_CSS)
+  return gulp.src(cssSource)
     .pipe(concat('all.css'))
-    .pipe(gulp.dest(DIST_CSS))
+    .pipe(gulp.dest(distFolder))
     .pipe(rename('all.min.css'))
     .pipe(sourcemaps.init())
     .pipe(minifycss())
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest(DIST_CSS))
+    .pipe(gulp.dest(distFolder))
 })
 
-gulp.task('build', ['isDist', 'jshint', 'minify', 'inject'], () => {
+gulp.task('minify-vendor-css', () => {
+  return gulp.src(cssSourceVendor)
+    .pipe(concat('_vendor.min.css'))
+    .pipe(gulp.dest(distFolder))
+})
+
+gulp.task('fonts', () => {
+  return gulp.src(fontsSource)
+    .pipe(rename({dirname: ''}))
+    .pipe(gulp.dest('dist/fonts'))
+})
+
+gulp.task('build', ['isDist', 'jshint', 'minify', 'inject-dist', 'fonts'], () => {
   const source = ['public/**/*.*']
   return gulp.src(source)
     .pipe(gulp.dest('dist'))
 })
 
 gulp.task('isDist', () => {
-  IS_DIST = true
+  isDist = true
 })
