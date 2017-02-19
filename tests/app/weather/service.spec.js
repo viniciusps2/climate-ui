@@ -21,7 +21,7 @@ describe('WeatherService Spec', function () {
     it('should call API and return array with results', function () {
       httpBackend
         .whenGET(environment.climateApiUrl + '/weather/locales/5')
-        .respond(200, [{locale: {id: 5}, weather: []}])
+        .respond(200, {locale: {id: 5}, weather: []})
 
       weatherService.findByLocaleId(5)
 

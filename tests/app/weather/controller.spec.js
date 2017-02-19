@@ -18,7 +18,7 @@ describe('WeatherCtrl Spec', function () {
     it('should find locale for localeId received from route', function () {
       weatherCtrl.initialize()
       scope.$digest()
-      expect(weatherCtrl.weatherItems).toEqual([{locale: {id: 11}}])
+      expect(weatherCtrl.weatherItems[0].locale.id).toEqual(11)
     })
     it('when not has localeId should load weather for main locales', function () {
       weatherCtrl = createController({})
@@ -56,7 +56,7 @@ describe('WeatherCtrl Spec', function () {
     return {
       findByLocaleId: function (id) {
         var defer = q.defer()
-        defer.resolve([{locale: {id: id}}])
+        defer.resolve({locale: {id: id}})
         return defer.promise
       },
       getMainWeathers: function () {

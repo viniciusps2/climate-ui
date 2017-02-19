@@ -14,8 +14,8 @@
     vm.initialize = initialize
 
     function findByLocaleId (localeId) {
-      WeatherService.findByLocaleId(localeId).then(function (weatherItems) {
-        vm.weatherItems = weatherItems
+      WeatherService.findByLocaleId(localeId).then(function (weatherItem) {
+        vm.weatherItems = [weatherItem]
       })
     }
 

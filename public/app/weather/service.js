@@ -18,7 +18,7 @@
       'findByLocaleId': {
         url: rootUrl + '/locales/:localeId',
         method: 'GET',
-        isArray: true
+        isArray: false
       }
     })
 
