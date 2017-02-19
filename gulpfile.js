@@ -2,6 +2,8 @@
 const path = require('path')
 const gulp = require('gulp')
 const connect = require('gulp-connect')
+const compression = require('compression')
+
 const jshint = require('gulp-jshint')
 const inject = require('gulp-inject')
 const wiredep = require('wiredep').stream
@@ -54,7 +56,7 @@ let IS_DIST = false
 
 const KARMA_CONF_FILE = getFullPath('tests/karma.conf.js')
 const SPEC_DIRECTORY = getFullPath('tests/')
-const SPEC_FILES = '\'./**/*spec.js\''
+const SPEC_FILES = "'./**/*spec.js'"
 
 gulp.task('serve', ['jshint', 'inject'], () => {
   const browserSync = require('browser-sync').create()
@@ -81,7 +83,12 @@ gulp.task('serve-prod', ['build'], () => {
   connect.server({
     root: 'dist',
     port: process.env.PORT || 3000,
-    livereload: false
+    livereload: false,
+    middleware: function () {
+      return [
+        compression()
+      ]
+    }
   })
 })
 
@@ -128,7 +135,7 @@ gulp.task('inject', ['minify'], () => {
 gulp.task('inject-karma', () => {
   // Inject all SOURCEJS files
   function injectAppJsFiles (filepath, i, length) {
-    return '\'..' + filepath + '\'' + (i + 1 < length ? ',\n            ' : '')
+    return "'.." + filepath + "'" + (i + 1 < length ? ',\n            ' : '')
   }
 
   // Inject SPEC files
@@ -207,4 +214,3 @@ gulp.task('build', ['isDist', 'jshint', 'minify', 'inject'], () => {
 gulp.task('isDist', () => {
   IS_DIST = true
 })
-
