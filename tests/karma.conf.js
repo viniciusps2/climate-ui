@@ -1,5 +1,3 @@
-var rootPath = __dirname + '/'
-
 module.exports = function (config) {
   config.set({
     basePath: '',
@@ -11,12 +9,12 @@ module.exports = function (config) {
             '../public/routes.js',
             '../public/components/environment.js',
             '../public/app/home/home-controller.js',
-            '../public/app/weather/controller.js',
-            '../public/app/weather/directive.js',
-            '../public/app/weather/service.js',
             '../public/app/locales/directive.js',
             '../public/app/locales/search-controller.js',
             '../public/app/locales/service.js',
+            '../public/app/weather/controller.js',
+            '../public/app/weather/directive.js',
+            '../public/app/weather/service.js',
             '../public/components/navbar/directive.js',
             './**/*spec.js'],
     preprocessors: {
@@ -39,9 +37,13 @@ module.exports = function (config) {
       'karma-spec-reporter'
     ],
     coverageReporter: {
-      type: 'html',
-      dir: '../coverage/',
-      subdir: '.'
+      reporters: [
+        {type: 'html'},
+        {type: 'lcov'},
+        {type: 'text-summary'},
+        {type: 'lcovonly'}
+      ],
+      dir: '../coverage'
     }
   })
 }
